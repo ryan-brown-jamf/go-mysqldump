@@ -291,6 +291,8 @@ func (table *table) NameEsc() string {
 }
 
 func (table *table) CreateSQL() (string, error) {
+	log.Println("SHOW CREATE TABLE " + table.NameEsc())
+
 	rows, err := table.data.tx.Query("SHOW CREATE TABLE " + table.NameEsc())
 	if err != nil {
 		return "", err
