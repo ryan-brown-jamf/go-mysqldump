@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"reflect"
 	"strings"
 	"text/template"
@@ -16,11 +17,11 @@ import (
 /*
 Data struct to configure dump behavior
 
-    Out:              Stream to wite to
-    Connection:       Database connection to dump
-    IgnoreTables:     Mark sensitive tables to ignore
-    MaxAllowedPacket: Sets the largest packet size to use in backups
-    LockTables:       Lock all tables for the duration of the dump
+	Out:              Stream to wite to
+	Connection:       Database connection to dump
+	IgnoreTables:     Mark sensitive tables to ignore
+	MaxAllowedPacket: Sets the largest packet size to use in backups
+	LockTables:       Lock all tables for the duration of the dump
 */
 type Data struct {
 	Out              io.Writer
@@ -424,6 +425,9 @@ func (table *table) Next() bool {
 	}
 	// Fallthrough
 	if table.rows.Next() {
+		if table.Name == "db_change_actions" {
+			log.Println("this is it")
+		}
 		if err := table.rows.Scan(table.values...); err != nil {
 			table.Err = err
 			return false
