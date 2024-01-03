@@ -479,6 +479,9 @@ func (table *table) Next() bool {
 	}
 	// Fallthrough
 	if table.rows.Next() {
+		if table.Name == "db_change_actions" {
+			log.Println("this is it")
+		}
 		if err := table.rows.Scan(table.values...); err != nil {
 			table.Err = err
 			return false
