@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"reflect"
 	"strings"
 	"text/template"
@@ -226,10 +227,12 @@ func (data *Data) dumpTable(table *table) error {
 
 func (data *Data) writeTable(table *table) error {
 	if table.isView {
+		log.Printf("its a view: %s\n", table.Name)
 		if err := data.viewTmpl.Execute(data.Out, table); err != nil {
 			return err
 		}
 	} else {
+		log.Printf("its a table: %s\n", table.Name)
 		if err := data.tableTmpl.Execute(data.Out, table); err != nil {
 			return err
 		}
